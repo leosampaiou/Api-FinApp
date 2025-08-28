@@ -1,18 +1,21 @@
 {
-  "name": "api-finapp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@eslint/js": "^9.34.0",
-    "eslint": "^9.34.0",
-    "globals": "^16.3.0"
-  }
+    "name": "api-finapp",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "postinstall": "npx husky"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@eslint/js": "^9.34.0",
+        "eslint": "^9.34.0",
+        "globals": "^16.3.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.1.5"
+    }
 }
