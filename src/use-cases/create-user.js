@@ -9,11 +9,9 @@ export class CreateUserUseCase {
         const hashedPassword = await bcrypt.hash(createUsersParams.password, 10)
 
         const user = {
+            ...createUsersParams,
             id: userId,
             password: hashedPassword,
-            first_name: createUsersParams.first_name,
-            last_name: createUsersParams.last_name,
-            email: createUsersParams.email,
         }
 
         const postgresCreateUserRepository = new PostgresCreateUserRepository()
