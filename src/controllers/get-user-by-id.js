@@ -1,6 +1,7 @@
 import {
     serverError,
     ok,
+    notFound,
 } from '/home/invictus/Documentos/Projetos/FinApp/Api-FinApp/src/controllers/helper.js'
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
 import validator from 'validator'
@@ -21,6 +22,10 @@ export class GetUserByIdController {
             const user = await getUserByIdUseCase.execute(
                 httpRequest.params.userId,
             )
+
+            if (!user) {
+                return notFound({ error: 'User not found' })
+            }
 
             return ok(user)
         } catch (error) {
