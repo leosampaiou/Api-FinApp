@@ -21,6 +21,6 @@ app.post('/api/users', async (req, res) => {
     res.status(response.statusCode).send(response.body)
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Server is running on port 3000')
 })
