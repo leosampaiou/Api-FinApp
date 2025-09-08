@@ -1,20 +1,14 @@
-import {
-    serverError,
-    ok,
-    notFound,
-    badRequest,
-} from '/home/invictus/Documentos/Projetos/FinApp/Api-FinApp/src/controllers/helper.js'
+import { serverError, ok, notFound } from '../controllers/helpers/http.js'
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
 import validator from 'validator'
+import { genetateInvalidIdResponse } from './helpers/user.js'
 
 export class GetUserByIdController {
     async execute(httpRequest) {
         try {
             const userIdIsValid = validator.isUUID(httpRequest.params.userId)
             if (!userIdIsValid) {
-                return badRequest({
-                    error: 'The provided id is not valid',
-                })
+                return genetateInvalidIdResponse()
             }
 
             const getUserByIdUseCase = new GetUserByIdUseCase()
