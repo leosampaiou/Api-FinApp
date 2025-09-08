@@ -9,7 +9,7 @@ import {
     checkIfEmailIsValid,
     checkIfPasswordIsValid,
     checkIfIdIsValid,
-} from './helpers/user.js'
+} from './helpers/index.js'
 
 export class UpdateUserController {
     async execute(httpRequest) {
