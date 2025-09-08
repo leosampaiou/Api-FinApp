@@ -1,6 +1,5 @@
 import { PostgresUpdateUserUseCase } from '../use-cases/update-user.js'
 import { ok, serverError } from './helpers/http.js'
-import validator from 'validator'
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import {
     genetateEmailAlredyInUseResponse,
@@ -9,6 +8,7 @@ import {
     genetateSomeFieldIsNotAlowedResponse,
     checkIfEmailIsValid,
     checkIfPasswordIsValid,
+    checkIfIdIsValid,
 } from './helpers/user.js'
 
 export class UpdateUserController {
@@ -17,7 +17,7 @@ export class UpdateUserController {
             const params = httpRequest.body
             const userId = httpRequest.params.userId
 
-            const userIdIsValid = validator.isUUID(userId)
+            const userIdIsValid = checkIfIdIsValid(userId)
             if (!userIdIsValid) {
                 return genetateInvalidIdResponse()
             }
