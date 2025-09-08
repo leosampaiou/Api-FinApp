@@ -1,4 +1,4 @@
-import { PostgresUpdateUserUseCase } from '../use-cases/index.js'
+import { PostgresUpdateUserUseCase } from '../use-cases/update-user.js'
 import { ok, serverError } from './helpers/http.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import {
