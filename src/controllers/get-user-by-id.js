@@ -1,4 +1,3 @@
-import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
 import {
     ok,
     serverError,
@@ -7,6 +6,9 @@ import {
     genetateUserNotFoundResponse,
 } from './helpers/index.js'
 export class GetUserByIdController {
+    constructor(GetUserByIdUseCase) {
+        this.GetUserByIdUseCase = GetUserByIdUseCase
+    }
     async execute(httpRequest) {
         try {
             const userIdIsValid = checkIfIdIsValid(httpRequest.params.userId)
@@ -14,9 +16,7 @@ export class GetUserByIdController {
                 return genetateInvalidIdResponse()
             }
 
-            const getUserByIdUseCase = new GetUserByIdUseCase()
-
-            const user = await getUserByIdUseCase.execute(
+            const user = await this.GetUserByIdUseCase.execute(
                 httpRequest.params.userId,
             )
 

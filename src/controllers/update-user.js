@@ -1,4 +1,3 @@
-import { PostgresUpdateUserUseCase } from '../use-cases/update-user.js'
 import { ok, serverError } from './helpers/http.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import {
@@ -12,6 +11,9 @@ import {
 } from './helpers/index.js'
 
 export class UpdateUserController {
+    constructor(updateUserUseCase) {
+        this.updateUserUseCase = updateUserUseCase
+    }
     async execute(httpRequest) {
         try {
             const params = httpRequest.body
@@ -53,9 +55,7 @@ export class UpdateUserController {
                 }
             }
 
-            const postgresUpdateUserUseCase = new PostgresUpdateUserUseCase()
-
-            const updatedUser = await postgresUpdateUserUseCase.execute(
+            const updatedUser = await this.updateUserUseCase.execute(
                 userId,
                 params,
             )

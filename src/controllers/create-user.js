@@ -1,4 +1,3 @@
-import { CreateUserUseCase } from '../use-cases/create-user.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import {
     badRequest,
@@ -11,6 +10,9 @@ import {
 } from './helpers/index.js'
 
 export class CreateUserCotroller {
+    constructor(createUserUseCase) {
+        this.createUserUseCase = createUserUseCase
+    }
     async execute(httpRequest) {
         try {
             const params = httpRequest.body
@@ -42,8 +44,7 @@ export class CreateUserCotroller {
                 return genetateEmailAlredyInUseResponse()
             }
 
-            const createUserUseCase = new CreateUserUseCase()
-            const createdUser = await createUserUseCase.execute(params)
+            const createdUser = await this.createUserUseCase.execute(params)
 
             return created({
                 menssage: 'User created successfully',
