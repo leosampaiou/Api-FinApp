@@ -7,9 +7,11 @@ import {
     makeCreteUserController,
     makeUpdateUserController,
     makeDeleteUserController,
-} from './src/factories/controllers/user.js'
+    makeTransactionController,
+} from './src/factories/controllers/index.js'
 
 const app = express()
+
 app.use(express.json())
 
 app.post('/api/users', async (req, res) => {
@@ -36,6 +38,12 @@ app.delete('/api/users/:userId', async (req, res) => {
     const deletedUserController = makeDeleteUserController()
 
     const { statusCode, body } = await deletedUserController.execute(req)
+    res.status(statusCode).send(body)
+})
+
+app.post('/api/transactions', async (req, res) => {
+    const transactionController = makeTransactionController()
+    const { statusCode, body } = await transactionController.execute(req)
     res.status(statusCode).send(body)
 })
 

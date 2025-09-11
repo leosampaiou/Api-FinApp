@@ -1,10 +1,10 @@
-import { generateServerError } from '../../helpers/http-helper.js'
-import { badRequest } from '../../helpers/index.js'
 import {
+    badRequest,
+    serverError,
     checkIfIdIsValid,
     created,
     genetateInvalidIdResponse,
-} from '../helpers'
+} from '../helpers/index.js'
 import validator from 'validator'
 
 export class CreateTransactionController {
@@ -15,17 +15,13 @@ export class CreateTransactionController {
         try {
             const params = httpRequest.body
 
-            const requireFields = [
-                'id',
-                'user_id',
-                'name',
-                ' transaction_date',
-                'amount',
-                'type',
-            ]
+            const requireFields = ['user_id', 'name', 'date', 'amount', 'type']
 
             for (const field of requireFields) {
-                if (!params[field] || params[field].length === 0) {
+                if (
+                    !params[field] ||
+                    params[field].toString().trim().length === 0
+                ) {
                     return badRequest({
                         menssage: `Field ${field} is required`,
                     })
@@ -55,7 +51,7 @@ export class CreateTransactionController {
                 return badRequest({ menssage: 'Amount is not valid' })
             }
 
-            const type = params.type.trim().toUpperCase()
+            const type = params.type.toUpperCase().trim()
 
             const typeIsValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(
                 type,
@@ -66,13 +62,14 @@ export class CreateTransactionController {
                         'Type must be one of the following: EARNING, EXPENSE, INVESTMENT',
                 })
             }
+            params.type = type
 
             const createdTransaction =
-                await this.createTransactionsUseCase.execute(...params, type)
+                await this.createTransactionsUseCase.execute(params)
             return created(createdTransaction)
         } catch (error) {
             console.error(error)
-            return generateServerError()
+            return serverError()
         }
     }
 }
