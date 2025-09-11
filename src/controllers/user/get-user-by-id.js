@@ -4,7 +4,7 @@ import {
     genetateInvalidIdResponse,
     checkIfIdIsValid,
     genetateUserNotFoundResponse,
-} from './helpers/index.js'
+} from '../helpers/index.js'
 export class GetUserByIdController {
     constructor(GetUserByIdUseCase) {
         this.GetUserByIdUseCase = GetUserByIdUseCase

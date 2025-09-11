@@ -1,5 +1,5 @@
-import { ok, serverError } from './helpers/http.js'
-import { EmailAlreadyInUseError } from '../errors/user.js'
+import { ok, serverError } from '../helpers/http.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 import {
     genetateEmailAlredyInUseResponse,
     genetateInvalidIdResponse,
@@ -8,7 +8,7 @@ import {
     checkIfEmailIsValid,
     checkIfPasswordIsValid,
     checkIfIdIsValid,
-} from './helpers/index.js'
+} from '../helpers/index.js'
 
 export class UpdateUserController {
     constructor(updateUserUseCase) {
