@@ -1,13 +1,15 @@
 import {
     genetateRequairedFieldResponse,
     validatedRequiredFields,
-    badRequest,
     serverError,
     checkIfIdIsValid,
     created,
     genetateInvalidIdResponse,
+    checkIfAmountIsValid,
+    checkIfTypeIsValid,
+    generateInvalidAmountResponse,
+    generateInvalidTypeResponse,
 } from '../helpers/index.js'
-import validator from 'validator'
 
 export class CreateTransactionController {
     constructor(createTransactionsUseCase) {
@@ -34,28 +36,16 @@ export class CreateTransactionController {
                 return genetateInvalidIdResponse()
             }
 
-            const amauntIsValid = validator.isCurrency(
-                params.amount.toString(),
-                {
-                    digits_after_decimal: [2],
-                    allow_negatives: false,
-                    decimal_separator: '.',
-                },
-            )
+            const amauntIsValid = checkIfAmountIsValid(params.amount)
             if (!amauntIsValid) {
-                return badRequest({ menssage: 'Amount is not valid' })
+                return generateInvalidAmountResponse()
             }
 
             const type = params.type.toUpperCase().trim()
 
-            const typeIsValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(
-                type,
-            )
+            const typeIsValid = checkIfTypeIsValid(type)
             if (!typeIsValid) {
-                return badRequest({
-                    menssage:
-                        'Type must be one of the following: EARNING, EXPENSE, INVESTMENT',
-                })
+                return generateInvalidTypeResponse()
             }
             params.type = type
 
