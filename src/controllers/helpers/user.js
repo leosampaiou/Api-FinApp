@@ -1,11 +1,6 @@
 import { badRequest, notFound } from './http.js'
 import validator from 'validator'
 
-export function genetateInvalidIdResponse() {
-    return badRequest({
-        message: 'The provided id is not valid',
-    })
-}
 export function genetateinvalidPasswordResponse() {
     return badRequest({
         message: 'The password must be at least 6 characters long',
@@ -22,15 +17,14 @@ export function genetateSomeFieldIsNotAlowedResponse() {
     })
 }
 
-export const checkIfPasswordIsValid = (password) => {
-    return password.length >= 6
-}
-
 export const genetateUserNotFoundResponse = () => {
     return notFound({
         message: 'User not found',
     })
 }
+
 export const checkIfEmailIsValid = (email) => validator.isEmail(email)
 
-export const checkIfIdIsValid = (id) => validator.isUUID(id)
+export const checkIfPasswordIsValid = (password) => {
+    return password.length >= 6
+}
