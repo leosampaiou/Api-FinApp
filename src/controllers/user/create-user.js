@@ -7,6 +7,7 @@ import {
     checkIfEmailIsValid,
     genetateinvalidPasswordResponse,
     genetateEmailAlredyInUseResponse,
+    validatedRequiredFields,
 } from '../helpers/index.js'
 
 export class CreateUserCotroller {
@@ -23,13 +24,15 @@ export class CreateUserCotroller {
                 'email',
                 'password',
             ]
+            const requiredFieldsValidation = validatedRequiredFields(
+                params,
+                requireFields,
+            )
 
-            for (const field of requireFields) {
-                if (!params[field] || params[field].length === 0) {
-                    return badRequest({
-                        menssage: `Field ${field} is required`,
-                    })
-                }
+            if (!requiredFieldsValidation.ok) {
+                return badRequest({
+                    message: `The field ${requiredFieldsValidation.missingField} is required`,
+                })
             }
 
             const passwordIsValid = checkIfPasswordIsValid(params.password)

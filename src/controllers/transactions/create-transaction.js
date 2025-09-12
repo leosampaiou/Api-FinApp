@@ -1,3 +1,4 @@
+import { validatedRequiredFields } from '../helpers/index.js'
 import {
     badRequest,
     serverError,
@@ -17,15 +18,14 @@ export class CreateTransactionController {
 
             const requireFields = ['user_id', 'name', 'date', 'amount', 'type']
 
-            for (const field of requireFields) {
-                if (
-                    !params[field] ||
-                    params[field].toString().trim().length === 0
-                ) {
-                    return badRequest({
-                        menssage: `Field ${field} is required`,
-                    })
-                }
+            const requiredFieldsValidation = validatedRequiredFields(
+                params,
+                requireFields,
+            )
+            if (!requiredFieldsValidation.ok) {
+                return badRequest({
+                    message: `The field ${requiredFieldsValidation.missingField} is required`,
+                })
             }
 
             const idIsValid = checkIfIdIsValid(params.user_id)
