@@ -1,5 +1,6 @@
-import { validatedRequiredFields } from '../helpers/index.js'
 import {
+    genetateRequairedFieldResponse,
+    validatedRequiredFields,
     badRequest,
     serverError,
     checkIfIdIsValid,
@@ -23,20 +24,14 @@ export class CreateTransactionController {
                 requireFields,
             )
             if (!requiredFieldsValidation.ok) {
-                return badRequest({
-                    message: `The field ${requiredFieldsValidation.missingField} is required`,
-                })
+                return genetateRequairedFieldResponse(
+                    requiredFieldsValidation.missingField,
+                )
             }
 
             const idIsValid = checkIfIdIsValid(params.user_id)
             if (!idIsValid) {
                 return genetateInvalidIdResponse()
-            }
-
-            if (params.amount <= 0) {
-                return badRequest({
-                    menssage: 'Amount must be greater than zero',
-                })
             }
 
             const amauntIsValid = validator.isCurrency(

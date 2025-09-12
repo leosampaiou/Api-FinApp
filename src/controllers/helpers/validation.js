@@ -8,6 +8,12 @@ export function genetateInvalidIdResponse() {
     })
 }
 
+export function genetateRequairedFieldResponse(field) {
+    return badRequest({
+        message: `The field ${field} is required`,
+    })
+}
+
 const checkIfIsString = (value) =>
     typeof value === 'string' || value instanceof String
 
