@@ -10,14 +10,14 @@ import {
     ok,
 } from '../../controllers/helpers/index.js'
 
-export class updateTransactionController {
+export class UpdateTransactionController {
     constructor(updateTransactionUseCase) {
         this.updateTransactionUseCase = updateTransactionUseCase
     }
     async execute(httpRequest) {
         try {
             const params = httpRequest.body
-            const id = httpRequest.params.idd
+            const id = httpRequest.params.id
 
             const userIdIsValid = checkIfIdIsValid(id)
             if (!userIdIsValid) {
@@ -42,10 +42,14 @@ export class updateTransactionController {
             }
 
             if (params.type) {
-                const typeIsValid = checkIfTypeIsValid(params.type)
+                const type = params.type.toUpperCase().trim()
+
+                const typeIsValid = checkIfTypeIsValid(type)
                 if (!typeIsValid) {
                     return generateInvalidTypeResponse()
                 }
+
+                params.type = type
             }
 
             const updatedTransaction =

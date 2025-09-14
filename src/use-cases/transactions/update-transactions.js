@@ -1,4 +1,4 @@
-export class updateTransactionsUseCase {
+export class UpdateTransactionUseCase {
     constructor(updateTransactionsRepository) {
         this.updateTransactionsRepository = updateTransactionsRepository
     }
