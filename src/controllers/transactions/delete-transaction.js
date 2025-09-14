@@ -3,7 +3,7 @@ import {
     serverError,
     ok,
     checkIfIdIsValid,
-} from '../helpers'
+} from '../helpers/index.js'
 
 export class deletedTransactionController {
     constructor(deleteTransactionUseCase) {
