@@ -3,6 +3,7 @@ import {
     serverError,
     ok,
     checkIfIdIsValid,
+    generateTransactionNotFoundResponse,
 } from '../helpers/index.js'
 
 export class deletedTransactionController {
@@ -21,7 +22,7 @@ export class deletedTransactionController {
                 await this.deleteTransactionUseCase.execute(id)
 
             if (!deletedTransaction) {
-                return genetateInvalidIdResponse()
+                return generateTransactionNotFoundResponse()
             }
 
             return ok(deletedTransaction)

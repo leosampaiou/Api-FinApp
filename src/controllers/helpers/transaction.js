@@ -26,3 +26,10 @@ export const generateInvalidTypeResponse = () => {
             'Type must be one of the following: EARNING, EXPENSE, INVESTMENT',
     })
 }
+
+export const generateTransactionNotFoundResponse = () => {
+    return {
+        statusCode: 404,
+        body: { menssage: 'Transaction not found' },
+    }
+}
