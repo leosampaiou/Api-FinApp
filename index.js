@@ -11,6 +11,7 @@ import {
     makeGetTransactionByUserIdController,
     makeUpdateTransactionController,
     makeDeleteTransactionController,
+    makeGetUserBalanceController,
 } from './src/factories/controllers/index.js'
 
 const app = express()
@@ -68,6 +69,14 @@ app.delete('/api/transactions/:id', async (req, res) => {
     const deletedTransactionController = makeDeleteTransactionController()
     const { statusCode, body } = await deletedTransactionController.execute(req)
     res.status(statusCode).send(body)
+})
+
+app.get('/api/users/:userId/balance', async (request, response) => {
+    const getUserBalanceController = makeGetUserBalanceController()
+
+    const { statusCode, body } = await getUserBalanceController.execute(request)
+
+    response.status(statusCode).send(body)
 })
 
 app.listen(process.env.PORT, () => {
