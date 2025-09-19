@@ -16,7 +16,6 @@ export class CreateTransactionController {
                 await this.createTransactionsUseCase.execute(params)
             return created(createdTransaction)
         } catch (error) {
-            console.log(error)
             if (error instanceof ZodError) {
                 return badRequest({
                     message: error.issues?.[0].message,
