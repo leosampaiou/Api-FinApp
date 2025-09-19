@@ -1,16 +1,6 @@
-import {
-    genetateRequairedFieldResponse,
-    validatedRequiredFields,
-    serverError,
-    checkIfIdIsValid,
-    created,
-    genetateInvalidIdResponse,
-    checkIfAmountIsValid,
-    checkIfTypeIsValid,
-    generateInvalidAmountResponse,
-    generateInvalidTypeResponse,
-} from '../helpers/index.js'
-
+import { serverError, created, badRequest } from '../helpers/index.js'
+import { createTransactionSchema } from '../../schema/transaction.js'
+import { ZodError } from 'zod'
 export class CreateTransactionController {
     constructor(createTransactionsUseCase) {
         this.createTransactionsUseCase = createTransactionsUseCase
@@ -18,41 +8,20 @@ export class CreateTransactionController {
     async execute(httpRequest) {
         try {
             const params = httpRequest.body
+            params.type = params.type.toUpperCase()
 
-            const requireFields = ['user_id', 'name', 'date', 'amount', 'type']
-
-            const requiredFieldsValidation = validatedRequiredFields(
-                params,
-                requireFields,
-            )
-            if (!requiredFieldsValidation.ok) {
-                return genetateRequairedFieldResponse(
-                    requiredFieldsValidation.missingField,
-                )
-            }
-
-            const idIsValid = checkIfIdIsValid(params.user_id)
-            if (!idIsValid) {
-                return genetateInvalidIdResponse()
-            }
-
-            const amauntIsValid = checkIfAmountIsValid(params.amount)
-            if (!amauntIsValid) {
-                return generateInvalidAmountResponse()
-            }
-
-            const type = params.type.toUpperCase().trim()
-
-            const typeIsValid = checkIfTypeIsValid(type)
-            if (!typeIsValid) {
-                return generateInvalidTypeResponse()
-            }
-            params.type = type
+            await createTransactionSchema.parseAsync(params)
 
             const createdTransaction =
                 await this.createTransactionsUseCase.execute(params)
             return created(createdTransaction)
         } catch (error) {
+            console.log(error)
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.issues?.[0].message,
+                })
+            }
             console.error(error)
             return serverError()
         }
