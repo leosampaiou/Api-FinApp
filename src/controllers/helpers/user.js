@@ -1,5 +1,4 @@
 import { badRequest, notFound } from './http.js'
-import validator from 'validator'
 
 export function genetateinvalidPasswordResponse() {
     return badRequest({
@@ -21,10 +20,4 @@ export const genetateUserNotFoundResponse = () => {
     return notFound({
         message: 'User not found',
     })
-}
-
-export const checkIfEmailIsValid = (email) => validator.isEmail(email)
-
-export const checkIfPasswordIsValid = (password) => {
-    return password.length >= 6
 }

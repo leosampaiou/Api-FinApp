@@ -21,3 +21,5 @@ export const createUserSchema = z.object({
         .trim()
         .min(6),
 })
+
+export const updatedUserSchema = createUserSchema.partial().strict()
