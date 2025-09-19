@@ -51,7 +51,7 @@ app.post('/api/transactions', async (req, res) => {
     res.status(statusCode).send(body)
 })
 
-app.get('/api/transactions/', async (req, res) => {
+app.get('/api/transactions/:userId', async (req, res) => {
     const getTransactionByUserIdController =
         makeGetTransactionByUserIdController()
     const { statusCode, body } =
