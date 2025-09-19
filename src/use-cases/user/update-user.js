@@ -7,13 +7,15 @@ export class UpdateUserUseCase {
         this.postgresUpdateUserRepository = updateUserRepository
     }
     async execute(userId, updateUserParams) {
-        const UserWithProvidedEmail =
-            await this.postgresGetUserByEmailRepository.execute(
-                updateUserParams.email,
-            )
+        if (updateUserParams.email) {
+            const userWithProvidedEmail =
+                await this.getUserByEmailRepository.execute(
+                    updateUserParams.email,
+                )
 
-        if (UserWithProvidedEmail && UserWithProvidedEmail.id !== userId) {
-            throw new EmailAlreadyInUseError(updateUserParams.email)
+            if (userWithProvidedEmail && userWithProvidedEmail.id !== userId) {
+                throw new EmailAlreadyInUseError(updateUserParams.email)
+            }
         }
         const user = {
             ...updateUserParams,
