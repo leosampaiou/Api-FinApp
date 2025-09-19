@@ -1,38 +1,32 @@
-import {
-    checkIfIdIsValid,
-    genetateInvalidIdResponse,
-    genetateRequairedFieldResponse,
-    genetateUserNotFoundResponse,
-    ok,
-    serverError,
-} from '../helpers/index.js'
-import { UserNotFoundError } from '../../errors/user.js'
+import { badRequest, serverError, ok } from '../helpers/index.js'
+import { z, ZodError } from 'zod'
 
 export class GetTransactionByUserIdController {
     constructor(getTransactionByUserIdUseCase) {
         this.getTransactionByUserIdUseCase = getTransactionByUserIdUseCase
     }
+
     async execute(httpRequest) {
         try {
-            const userId = httpRequest.query.userId
-            if (!userId) {
-                return genetateRequairedFieldResponse('userId')
-            }
+            const paramsSchema = z.object({
+                userId: z.string().uuid({ message: 'Invalid userId format' }),
+            })
 
-            const idIsValid = checkIfIdIsValid(userId)
-            if (!idIsValid) {
-                return genetateInvalidIdResponse()
-            }
+            const { userId } = paramsSchema.parse(httpRequest.params)
+
             const transactions =
-                await this.getTransactionByUserIdUseCase.execute({
-                    userId,
-                })
+                await this.getTransactionByUserIdUseCase.execute(userId)
+
             return ok(transactions)
         } catch (error) {
-            if (error instanceof UserNotFoundError) {
-                return genetateUserNotFoundResponse()
-            }
             console.error(error)
+
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.errors.map((e) => e.message).join(', '),
+                })
+            }
+
             return serverError()
         }
     }
