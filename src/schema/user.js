@@ -7,13 +7,9 @@ export const createUserSchema = z.object({
     last_name: z.string().trim().min(1, {
         message: 'Last name is required',
     }),
-    email: z
-        .string()
-        .trim()
-        .min(1, {
-            message: 'Email is required',
-        })
-        .check(z.email()),
+    email: z.email().min(1, {
+        message: 'Email is required',
+    }),
     password: z
         .string({
             required_error: 'Password is required',
