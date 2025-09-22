@@ -110,3 +110,21 @@ test('should return 400 bad request if password in missing', async () => {
 
     expect(result.statusCode).toBe(400)
 })
+
+test('should return 400 when password is shorter than 6 characters', async () => {
+    const createUserUseCaseStub = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+
+    const httpRequest = {
+        body: {
+            first_name: 'leo',
+            last_name: 'sampaio',
+            email: 'leo@gmail.com',
+            password: '123',
+        },
+    }
+
+    const result = await createUserCotroller.execute(httpRequest)
+
+    expect(result.statusCode).toBe(400)
+})
