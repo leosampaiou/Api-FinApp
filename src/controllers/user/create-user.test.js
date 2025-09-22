@@ -75,3 +75,20 @@ test('should return 400 bad request if email is missing', async () => {
 
     expect(result.statusCode).toBe(400)
 })
+
+test('should return 400 bad request if password in missing', async () => {
+    const createUserUseCaseStub = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+
+    const httpRequest = {
+        body: {
+            first_name: 'leo',
+            last_name: 'sampaio',
+            email: 'leo@gmail.com',
+        },
+    }
+
+    const result = await createUserCotroller.execute(httpRequest)
+
+    expect(result.statusCode).toBe(400)
+})
