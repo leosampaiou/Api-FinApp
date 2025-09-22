@@ -14,10 +14,7 @@ export class CreateUserCotroller {
 
             const createdUser = await this.createUserUseCase.execute(params)
 
-            return created({
-                message: 'User created successfully',
-                user: createdUser,
-            })
+            return created(createdUser)
         } catch (error) {
             console.log(error)
 
