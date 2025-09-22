@@ -1,8 +1,8 @@
 import { badRequest, ok, serverError } from '../helpers/http.js'
 import { EmailAlreadyInUseError } from '../../errors/user.js'
 import {
-    genetateInvalidIdResponse,
-    genetateSomeFieldIsNotAlowedResponse,
+    generateInvalidIdResponse,
+    generateSomeFieldIsNotAlowedResponse,
     checkIfIdIsValid,
 } from '../helpers/index.js'
 import { updatedUserSchema } from '../../schema/user.js'
@@ -19,7 +19,7 @@ export class UpdateUserController {
 
             const userIdIsValid = checkIfIdIsValid(userId)
             if (!userIdIsValid) {
-                return genetateInvalidIdResponse()
+                return generateInvalidIdResponse()
             }
 
             const alowedFields = [
@@ -34,7 +34,7 @@ export class UpdateUserController {
             })
 
             if (someFieldIsNotAlowed) {
-                return genetateSomeFieldIsNotAlowedResponse()
+                return generateSomeFieldIsNotAlowedResponse()
             }
 
             await updatedUserSchema.parseAsync(params)

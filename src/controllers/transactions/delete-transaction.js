@@ -1,5 +1,5 @@
 import {
-    genetateInvalidIdResponse,
+    generateInvalidIdResponse,
     serverError,
     ok,
     checkIfIdIsValid,
@@ -16,7 +16,7 @@ export class deletedTransactionController {
 
             const transactionIdIsValid = checkIfIdIsValid(id)
             if (!transactionIdIsValid) {
-                return genetateInvalidIdResponse()
+                return generateInvalidIdResponse()
             }
             const deletedTransaction =
                 await this.deleteTransactionUseCase.execute(id)

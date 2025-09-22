@@ -1,10 +1,10 @@
 import { UserNotFoundError } from '../../errors/user.js'
 import {
     checkIfIdIsValid,
-    genetateInvalidIdResponse,
+    generateInvalidIdResponse,
     ok,
     serverError,
-    genetateUserNotFoundResponse,
+    generateUserNotFoundResponse,
 } from '../helpers/index.js'
 
 export class GetUserBalanceController {
@@ -19,7 +19,7 @@ export class GetUserBalanceController {
             const idIsValid = checkIfIdIsValid(userId)
 
             if (!idIsValid) {
-                return genetateInvalidIdResponse()
+                return generateInvalidIdResponse()
             }
 
             const balance = await this.getUserBalanceUseCase.execute({ userId })
@@ -27,7 +27,7 @@ export class GetUserBalanceController {
             return ok(balance)
         } catch (error) {
             if (error instanceof UserNotFoundError) {
-                return genetateUserNotFoundResponse()
+                return generateUserNotFoundResponse()
             }
 
             console.error(error)

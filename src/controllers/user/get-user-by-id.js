@@ -1,9 +1,9 @@
 import {
     ok,
     serverError,
-    genetateInvalidIdResponse,
+    generateInvalidIdResponse,
     checkIfIdIsValid,
-    genetateUserNotFoundResponse,
+    generateUserNotFoundResponse,
 } from '../helpers/index.js'
 export class GetUserByIdController {
     constructor(GetUserByIdUseCase) {
@@ -13,7 +13,7 @@ export class GetUserByIdController {
         try {
             const userIdIsValid = checkIfIdIsValid(httpRequest.params.userId)
             if (!userIdIsValid) {
-                return genetateInvalidIdResponse()
+                return generateInvalidIdResponse()
             }
 
             const user = await this.GetUserByIdUseCase.execute(
@@ -21,7 +21,7 @@ export class GetUserByIdController {
             )
 
             if (!user) {
-                return genetateUserNotFoundResponse()
+                return generateUserNotFoundResponse()
             }
 
             return ok(user)

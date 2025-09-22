@@ -3,13 +3,13 @@ import { badRequest } from './index.js'
 
 export const checkIfIdIsValid = (id) => validator.isUUID(id)
 
-export function genetateInvalidIdResponse() {
+export function generateInvalidIdResponse() {
     return badRequest({
         message: 'The provided id is not valid',
     })
 }
 
-export function genetateRequairedFieldResponse(field) {
+export function generateRequairedFieldResponse(field) {
     return badRequest({
         message: `The field ${field} is required`,
     })

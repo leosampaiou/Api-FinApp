@@ -1,9 +1,9 @@
 import { ZodError } from 'zod'
 import {
     checkIfIdIsValid,
-    genetateInvalidIdResponse,
+    generateInvalidIdResponse,
     serverError,
-    genetateSomeFieldIsNotAlowedResponse,
+    generateSomeFieldIsNotAlowedResponse,
     ok,
     badRequest,
 } from '../../controllers/helpers/index.js'
@@ -21,7 +21,7 @@ export class UpdateTransactionController {
 
             const userIdIsValid = checkIfIdIsValid(id)
             if (!userIdIsValid) {
-                return genetateInvalidIdResponse()
+                return generateInvalidIdResponse()
             }
 
             const alowedFields = ['name', 'date', 'amount', 'type']
@@ -31,7 +31,7 @@ export class UpdateTransactionController {
             })
 
             if (someFieldIsNotAlowed) {
-                return genetateSomeFieldIsNotAlowedResponse()
+                return generateSomeFieldIsNotAlowedResponse()
             }
 
             await updateTransactionSchema.parseAsync(params)
