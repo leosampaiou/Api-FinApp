@@ -6,7 +6,7 @@ class CreateUserUseCaseStub {
     }
 }
 
-it('should return 201 and successfully create a new user', async () => {
+test('should return 201 and successfully create a new user', async () => {
     const createUserUseCaseStub = new CreateUserUseCaseStub()
     const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
 
@@ -23,4 +23,21 @@ it('should return 201 and successfully create a new user', async () => {
 
     expect(result.statusCode).toBe(201)
     expect(result.body).toBe(httpRequest.body)
+})
+
+test('should return 400 Bad Request if first_name is missing', async () => {
+    const createUserUseCaseStub = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+
+    const httpRequest = {
+        body: {
+            last_name: 'sampaio',
+            email: 'leo@gmail.com',
+            password: '123456789',
+        },
+    }
+
+    const result = await createUserCotroller.execute(httpRequest)
+
+    expect(result.statusCode).toBe(400)
 })
