@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker'
+
 import { CreateUserCotroller } from './create-user'
 
 class CreateUserUseCaseStub {
@@ -12,10 +14,12 @@ test('should return 201 and successfully create a new user', async () => {
 
     const httpRequest = {
         body: {
-            first_name: 'leo',
-            last_name: 'sampaio',
-            email: 'leo@gmail.com',
-            password: '123456789',
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
+            email: faker.internet.email(),
+            password: faker.internet.password({
+                length: 7,
+            }),
         },
     }
 
@@ -31,9 +35,11 @@ test('should return 400 Bad Request if first_name is missing', async () => {
 
     const httpRequest = {
         body: {
-            last_name: 'sampaio',
-            email: 'leo@gmail.com',
-            password: '123456789',
+            last_name: faker.person.lastName(),
+            email: faker.internet.email(),
+            password: faker.internet.password({
+                length: 7,
+            }),
         },
     }
 
@@ -47,11 +53,11 @@ test('should return 400 bad request if last_name is missing', async () => {
     const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
-        body: {
-            first_name: 'leo',
-            email: 'leo@gmail.com',
-            password: '123456789',
-        },
+        first_name: faker.person.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+            length: 7,
+        }),
     }
 
     const result = await createUserCotroller.execute(httpRequest)
@@ -65,9 +71,11 @@ test('should return 400 bad request if email is missing', async () => {
 
     const httpRequest = {
         body: {
-            first_name: 'leo',
-            last_name: 'sampaio',
-            password: '123456789',
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
+            password: faker.internet.password({
+                length: 7,
+            }),
         },
     }
 
@@ -82,10 +90,12 @@ test('should return 400 bad request if email is not valid', async () => {
 
     const httpRequest = {
         body: {
-            first_name: 'leo',
-            last_name: 'sampaio',
-            email: 'leo',
-            password: '123456789',
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
+            email: 'invalid_email',
+            password: faker.internet.password({
+                length: 7,
+            }),
         },
     }
 
@@ -100,9 +110,9 @@ test('should return 400 bad request if password in missing', async () => {
 
     const httpRequest = {
         body: {
-            first_name: 'leo',
-            last_name: 'sampaio',
-            email: 'leo@gmail.com',
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
+            email: faker.internet.email(),
         },
     }
 
@@ -117,10 +127,12 @@ test('should return 400 when password is shorter than 6 characters', async () =>
 
     const httpRequest = {
         body: {
-            first_name: 'leo',
-            last_name: 'sampaio',
-            email: 'leo@gmail.com',
-            password: '123',
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
+            email: faker.internet.email(),
+            password: faker.internet.password({
+                length: 4,
+            }),
         },
     }
 
@@ -135,10 +147,12 @@ test('should call CreateUserUsecase with correct params', async () => {
 
     const httpRequest = {
         body: {
-            first_name: 'leo',
-            last_name: 'sampaio',
-            email: 'leo@gmail.com',
-            password: '123456789',
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
+            email: faker.internet.email(),
+            password: faker.internet.password({
+                length: 7,
+            }),
         },
     }
     const executeSpy = jest.spyOn(createUserUseCase, 'execute')

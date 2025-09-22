@@ -1,8 +1,11 @@
 /** @type {import('jest').Config} */
-const config = {
+export default {
     coverageDirectory: 'coverage',
-
     coverageProvider: 'v8',
-}
 
-export default config
+    transform: {
+        '^.+\\.jsx?$': 'babel-jest',
+    },
+
+    transformIgnorePatterns: ['/node_modules/(?!(\\@faker-js/faker)/)'],
+}
