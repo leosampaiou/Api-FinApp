@@ -1,4 +1,4 @@
-import { badRequest, created } from '../helpers/index.js'
+import { badRequest, created, serverError } from '../helpers/index.js'
 import { EmailAlreadyInUseError } from '../../errors/user.js'
 import { ZodError } from 'zod'
 import { createUserSchema } from '../../schema/index.js'
@@ -25,6 +25,8 @@ export class CreateUserCotroller {
             if (error instanceof EmailAlreadyInUseError) {
                 return badRequest({ message: error.message })
             }
+
+            return serverError()
         }
     }
 }
