@@ -7,8 +7,8 @@ class CreateUserUseCaseStub {
 }
 
 test('should return 201 and successfully create a new user', async () => {
-    const createUserUseCaseStub = new CreateUserUseCaseStub()
-    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
         body: {
@@ -22,12 +22,12 @@ test('should return 201 and successfully create a new user', async () => {
     const result = await createUserCotroller.execute(httpRequest)
 
     expect(result.statusCode).toBe(201)
-    expect(result.body).toBe(httpRequest.body)
+    expect(result.body).toEqual(httpRequest.body)
 })
 
 test('should return 400 Bad Request if first_name is missing', async () => {
-    const createUserUseCaseStub = new CreateUserUseCaseStub()
-    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
         body: {
@@ -43,8 +43,8 @@ test('should return 400 Bad Request if first_name is missing', async () => {
 })
 
 test('should return 400 bad request if last_name is missing', async () => {
-    const createUserUseCaseStub = new CreateUserUseCaseStub()
-    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
         body: {
@@ -60,8 +60,8 @@ test('should return 400 bad request if last_name is missing', async () => {
 })
 
 test('should return 400 bad request if email is missing', async () => {
-    const createUserUseCaseStub = new CreateUserUseCaseStub()
-    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
         body: {
@@ -77,8 +77,8 @@ test('should return 400 bad request if email is missing', async () => {
 })
 
 test('should return 400 bad request if email is not valid', async () => {
-    const createUserUseCaseStub = new CreateUserUseCaseStub()
-    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
         body: {
@@ -95,8 +95,8 @@ test('should return 400 bad request if email is not valid', async () => {
 })
 
 test('should return 400 bad request if password in missing', async () => {
-    const createUserUseCaseStub = new CreateUserUseCaseStub()
-    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
         body: {
@@ -112,8 +112,8 @@ test('should return 400 bad request if password in missing', async () => {
 })
 
 test('should return 400 when password is shorter than 6 characters', async () => {
-    const createUserUseCaseStub = new CreateUserUseCaseStub()
-    const createUserCotroller = new CreateUserCotroller(createUserUseCaseStub)
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
 
     const httpRequest = {
         body: {
@@ -127,4 +127,23 @@ test('should return 400 when password is shorter than 6 characters', async () =>
     const result = await createUserCotroller.execute(httpRequest)
 
     expect(result.statusCode).toBe(400)
+})
+
+test('should call CreateUserUsecase with correct params', async () => {
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserCotroller = new CreateUserCotroller(createUserUseCase)
+
+    const httpRequest = {
+        body: {
+            first_name: 'leo',
+            last_name: 'sampaio',
+            email: 'leo@gmail.com',
+            password: '123456789',
+        },
+    }
+    const executeSpy = jest.spyOn(createUserUseCase, 'execute')
+
+    await createUserCotroller.execute(httpRequest)
+
+    expect(executeSpy).toHaveBeenCalledWith(httpRequest.body)
 })

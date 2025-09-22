@@ -16,8 +16,6 @@ export class CreateUserCotroller {
 
             return created(createdUser)
         } catch (error) {
-            console.log(error)
-
             if (error instanceof ZodError) {
                 return badRequest({
                     message: error.issues?.[0]?.message,
