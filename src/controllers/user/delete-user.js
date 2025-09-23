@@ -1,3 +1,4 @@
+import { UserNotFoundError } from '../../errors/user.js'
 import {
     serverError,
     ok,
@@ -21,12 +22,11 @@ export class DeleteUserController {
 
             const deletedUser = await this.deleteUserUseCase.execute(userId)
 
-            if (!deletedUser) {
-                return generateUserNotFoundResponse()
-            }
-
             return ok(deletedUser)
         } catch (error) {
+            if (error instanceof UserNotFoundError) {
+                return generateUserNotFoundResponse()
+            }
             console.error(error)
             return serverError()
         }
