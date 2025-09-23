@@ -27,7 +27,7 @@ export class DeleteUserController {
             if (error instanceof UserNotFoundError) {
                 return generateUserNotFoundResponse()
             }
-            console.error(error)
+
             return serverError()
         }
     }
