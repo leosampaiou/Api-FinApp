@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { GetUserByIdController } from './get-user-by-id'
-
+import { UserNotFoundError } from '../../errors/user'
 describe('GetUserByIdController', () => {
     class GetUserByIdUseCaseStub {
         async execute(user) {
@@ -35,5 +35,16 @@ describe('GetUserByIdController', () => {
             },
         })
         expect(result.statusCode).toBe(400)
+    })
+    test('should return 404 not found if user id does not exist', async () => {
+        const { sut, getUserByIdUseCase } = makeSut()
+
+        jest.spyOn(getUserByIdUseCase, 'execute').mockImplementationOnce(() => {
+            throw new UserNotFoundError()
+        })
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(404)
     })
 })
