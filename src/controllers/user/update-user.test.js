@@ -52,12 +52,12 @@ describe('UpdadeUserController', () => {
     test('should return 400 Bad Request if request contains a field that is not allowed', async () => {
         const { sut } = makeSut()
 
-        const httpRequestWithAllowedFild = {
+        const httpRequestWithUnllowedFild = {
             params: httpRequest.params,
-            body: { ...httpRequest.body, allowedFild: 'allowedFild' },
+            body: { ...httpRequest.body, unallowedFild: 'unallowedFild' },
         }
 
-        const result = await sut.execute(httpRequestWithAllowedFild)
+        const result = await sut.execute(httpRequestWithUnllowedFild)
 
         expect(result.statusCode).toBe(400)
     })
