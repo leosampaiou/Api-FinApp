@@ -38,11 +38,24 @@ describe('UpdadeUserController', () => {
         const { sut } = makeSut()
 
         const httpRequestWithAllowedFild = {
-            params: { userId: faker.string.uuid() },
+            params: httpRequest.params,
             body: { ...httpRequest.body, allowedFild: 'allowedFild' },
         }
 
         const result = await sut.execute(httpRequestWithAllowedFild)
+
+        expect(result.statusCode).toBe(400)
+    })
+
+    test('should return 400 Bad Request if invalid email is provided', async () => {
+        const { sut } = makeSut()
+
+        const httpRequestWithInvalidEmail = {
+            params: httpRequest.params,
+            body: { ...httpRequest.body, email: 'invalid_email' },
+        }
+
+        const result = await sut.execute(httpRequestWithInvalidEmail)
 
         expect(result.statusCode).toBe(400)
     })
