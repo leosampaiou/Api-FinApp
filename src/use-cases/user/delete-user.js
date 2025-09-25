@@ -1,9 +1,9 @@
 import { UserNotFoundError } from '../../errors/user.js'
 
 export class DeleteUserUseCase {
-    constructor(postgresDeleteUserRepository, postgresGetUserByIdRepository) {
-        this.postgresDeleteUserRepository = postgresDeleteUserRepository
+    constructor(postgresGetUserByIdRepository, postgresDeleteUserRepository) {
         this.postgresGetUserByIdRepository = postgresGetUserByIdRepository
+        this.postgresDeleteUserRepository = postgresDeleteUserRepository
     }
     async execute(userId) {
         const user = await this.postgresGetUserByIdRepository.execute(userId)

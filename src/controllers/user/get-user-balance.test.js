@@ -1,0 +1,28 @@
+import { GetUserBalanceController } from './get-user-balance.js'
+import { faker } from '@faker-js/faker'
+
+describe('GetUseBalanceController', () => {
+    class GetUserBalanceUseCaseStub {
+        async execute() {
+            return faker.finance.amount()
+        }
+    }
+    const httpRequest = {
+        params: { userId: faker.string.uuid() },
+    }
+
+    const makeSut = () => {
+        const getUserBalanceUseCase = new GetUserBalanceUseCaseStub()
+        const sut = new GetUserBalanceController(getUserBalanceUseCase)
+
+        return { sut, getUserBalanceUseCase }
+    }
+
+    test('should return 200 and the user balance when the request is successful', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(200)
+    })
+})

@@ -30,8 +30,6 @@ export class GetUserBalanceController {
                 return generateUserNotFoundResponse()
             }
 
-            console.error(error)
-
             return serverError()
         }
     }
