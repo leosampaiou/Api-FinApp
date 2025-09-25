@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { UpdateUserController } from './update-user'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 describe('UpdadeUserController', () => {
     class UpdadeUserUseCaseStub {
@@ -87,6 +88,18 @@ describe('UpdadeUserController', () => {
         }
 
         const result = await sut.execute(httpRequestWithInvalidPassword)
+
+        expect(result.statusCode).toBe(400)
+    })
+
+    test('should return 400 if UpdateUserUseCase throw EmailAlreadyInUseError', async () => {
+        const { sut, updateUserUseCase } = makeSut()
+
+        jest.spyOn(updateUserUseCase, 'execute').mockImplementationOnce(() => {
+            throw new EmailAlreadyInUseError()
+        })
+
+        const result = await sut.execute(httpRequest)
 
         expect(result.statusCode).toBe(400)
     })
