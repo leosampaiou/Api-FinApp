@@ -91,4 +91,17 @@ describe('CreateTransactionController', () => {
 
         expect(result.statusCode).toBe(500)
     })
+
+    test.each(['user_id', 'name', 'type', 'amount', 'date'])(
+        'should return 400 if %s is missing',
+        async (field) => {
+            const { sut } = makeSut()
+            const invalidBody = { ...httpRequest.body }
+            delete invalidBody[field]
+
+            const result = await sut.execute({ body: invalidBody })
+
+            expect(result.statusCode).toBe(400)
+        },
+    )
 })
