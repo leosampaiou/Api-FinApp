@@ -34,6 +34,21 @@ describe('UpdadeUserController', () => {
         expect(result.statusCode).toBe(200)
     })
 
+    test('should return 400 Bad Request if invalid Id is provided', async () => {
+        const { sut } = makeSut()
+
+        const httpRequestWithInvalidId = {
+            params: { userId: 'invalid_id' },
+            body: {
+                ...httpRequest.body,
+            },
+        }
+
+        const result = await sut.execute(httpRequestWithInvalidId)
+
+        expect(result.statusCode).toBe(400)
+    })
+
     test('should return 400 Bad Request if request contains a field that is not allowed', async () => {
         const { sut } = makeSut()
 
