@@ -50,4 +50,14 @@ describe('CreateTransactionController', () => {
 
         expect(result.statusCode).toBe(404)
     })
+
+    test('should return 400 if transaction type is not valid', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute({
+            body: { ...httpRequest.body, type: 'invalid_type' },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
 })
