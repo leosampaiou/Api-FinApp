@@ -14,7 +14,7 @@ export class CreateTransactionController {
     async execute(httpRequest) {
         try {
             const params = httpRequest.body
-            params.type = params.type.toUpperCase()
+            params.type = params.type?.toUpperCase()
 
             await createTransactionSchema.parseAsync(params)
 
