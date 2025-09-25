@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { CreateTransactionController } from './create-transaction'
+import { UserNotFoundError } from '../../errors/user.js'
 
 describe('CreateTransactionController', () => {
     class CreateTransactionUseCaseStub {
@@ -9,10 +10,10 @@ describe('CreateTransactionController', () => {
     }
 
     const makeSut = () => {
-        const CreateTransactionUseCase = new CreateTransactionUseCaseStub()
-        const sut = new CreateTransactionController(CreateTransactionUseCase)
+        const createTransactionUseCase = new CreateTransactionUseCaseStub()
+        const sut = new CreateTransactionController(createTransactionUseCase)
 
-        return { sut, CreateTransactionUseCase }
+        return { sut, createTransactionUseCase }
     }
 
     const type = ['EARNING', 'EXPENSE', 'INVESTMENT']
@@ -34,5 +35,19 @@ describe('CreateTransactionController', () => {
 
         expect(result.statusCode).toBe(201)
         expect(result.body).toEqual(httpRequest.body)
+    })
+
+    test('should return 404 not found if user id does not exist', async () => {
+        const { sut, createTransactionUseCase } = makeSut()
+
+        jest.spyOn(createTransactionUseCase, 'execute').mockImplementationOnce(
+            () => {
+                throw new UserNotFoundError()
+            },
+        )
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(404)
     })
 })
