@@ -60,4 +60,13 @@ describe('CreateTransactionController', () => {
 
         expect(result.statusCode).toBe(400)
     })
+
+    test('should return 400 if date is not ISO date time format', async () => {
+        const { sut } = makeSut()
+        const result = await sut.execute({
+            body: { ...httpRequest.body, date: faker.date.anytime() },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
 })
