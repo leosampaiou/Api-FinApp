@@ -25,7 +25,6 @@ export class CreateUserCotroller {
             if (error instanceof EmailAlreadyInUseError) {
                 return badRequest({ message: error.message })
             }
-
             return serverError()
         }
     }
