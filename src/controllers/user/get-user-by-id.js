@@ -1,3 +1,4 @@
+import { UserNotFoundError } from '../../errors/user.js'
 import {
     ok,
     serverError,
@@ -20,12 +21,11 @@ export class GetUserByIdController {
                 httpRequest.params.userId,
             )
 
-            if (!user) {
-                return generateUserNotFoundResponse()
-            }
-
             return ok(user)
         } catch (error) {
+            if (error instanceof UserNotFoundError) {
+                return generateUserNotFoundResponse()
+            }
             console.error(error)
             return serverError()
         }
