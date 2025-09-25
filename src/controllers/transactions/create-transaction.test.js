@@ -69,4 +69,12 @@ describe('CreateTransactionController', () => {
 
         expect(result.statusCode).toBe(400)
     })
+    test('should return 400 if amount is not a number', async () => {
+        const { sut } = makeSut()
+        const result = await sut.execute({
+            body: { ...httpRequest.body, amount: faker.finance.amount() },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
 })
