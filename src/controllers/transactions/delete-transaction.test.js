@@ -26,4 +26,12 @@ describe('DeleteTransactionController', () => {
 
         expect(result.statusCode).toBe(200)
     })
+
+    test('should return 400 if transaction id is not valid', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute({ params: { id: 'invalid_id' } })
+
+        expect(result.statusCode).toBe(400)
+    })
 })
