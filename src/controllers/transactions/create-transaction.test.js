@@ -23,7 +23,7 @@ describe('CreateTransactionController', () => {
             user_id: faker.string.uuid(),
             name: faker.finance.transactionDescription(),
             type: faker.helpers.arrayElement(type),
-            amount: +faker.finance.amount({ min: 1, dec: 2 }),
+            amount: Number(faker.finance.amount({ min: 1, dec: 2 })),
             date: faker.date.anytime().toISOString(),
         },
     }
@@ -64,7 +64,7 @@ describe('CreateTransactionController', () => {
     test('should return 400 if date is not ISO date time format', async () => {
         const { sut } = makeSut()
         const result = await sut.execute({
-            body: { ...httpRequest.body, date: faker.date.anytime() },
+            body: { ...httpRequest.body, date: 'invalid_date' },
         })
 
         expect(result.statusCode).toBe(400)
@@ -72,7 +72,7 @@ describe('CreateTransactionController', () => {
     test('should return 400 if amount is not a number', async () => {
         const { sut } = makeSut()
         const result = await sut.execute({
-            body: { ...httpRequest.body, amount: faker.finance.amount() },
+            body: { ...httpRequest.body, amount: 'not-a-number' },
         })
 
         expect(result.statusCode).toBe(400)
