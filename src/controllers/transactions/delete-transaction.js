@@ -6,7 +6,7 @@ import {
     generateTransactionNotFoundResponse,
 } from '../helpers/index.js'
 
-export class deletedTransactionController {
+export class DeleteTransactionController {
     constructor(deleteTransactionUseCase) {
         this.deleteTransactionUseCase = deleteTransactionUseCase
     }

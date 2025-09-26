@@ -2,7 +2,7 @@ import {
     CreateTransactionController,
     GetTransactionByUserIdController,
     UpdateTransactionController,
-    deletedTransactionController,
+    DeleteTransactionController,
 } from '../../controllers/index.js'
 import {
     CreateTransactionsUseCase,
@@ -74,7 +74,7 @@ export const makeDeleteTransactionController = () => {
         deleteTransactionRepository,
     )
 
-    const deleteTransactionController = new deletedTransactionController(
+    const deleteTransactionController = new DeleteTransactionController(
         deleteTransactionUseCase,
     )
     return deleteTransactionController
