@@ -34,4 +34,14 @@ describe('DeleteTransactionController', () => {
 
         expect(result.statusCode).toBe(400)
     })
+    test('should return 404 if transaction is not found', async () => {
+        const { sut, deleteTransactionUseCase } = makeSut()
+        jest.spyOn(deleteTransactionUseCase, 'execute').mockReturnValueOnce(
+            null,
+        )
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(404)
+    })
 })
