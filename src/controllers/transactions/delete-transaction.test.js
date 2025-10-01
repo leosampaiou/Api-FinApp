@@ -2,9 +2,24 @@ import { DeleteTransactionController } from './delete-transaction.js'
 import { faker } from '@faker-js/faker'
 
 describe('DeleteTransactionController', () => {
+    const type = [
+        'EARNING',
+        'EXPENSE',
+        'INVESTMENT',
+        'earning',
+        'expense',
+        'investment',
+    ]
+
     class DeleteTransactionUseCaseStub {
-        execute(user) {
-            return user
+        execute() {
+            return {
+                user_id: faker.string.uuid(),
+                name: faker.finance.transactionDescription(),
+                type: faker.helpers.arrayElement(type),
+                amount: Number(faker.finance.amount({ min: 1, dec: 2 })),
+                date: faker.date.anytime().toISOString(),
+            }
         }
     }
 
