@@ -16,7 +16,14 @@ describe('CreateTransactionController', () => {
         return { sut, createTransactionUseCase }
     }
 
-    const type = ['EARNING', 'EXPENSE', 'INVESTMENT']
+    const type = [
+        'EARNING',
+        'EXPENSE',
+        'INVESTMENT',
+        'earning',
+        'expense',
+        'investment',
+    ]
 
     const httpRequest = {
         body: {
